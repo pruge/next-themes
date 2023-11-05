@@ -190,13 +190,17 @@ const ThemeScript = memo(
 
     // Code-golfing the amount of characters in the script
     const optimization = (() => {
-      if (attribute === 'class') {
-        const removeClasses = `c.remove(${attrs.map((t: string) => `'${t}'`).join(',')})`
+      // if (attribute === 'class') {
+      //   const removeClasses = `c.remove(${attrs.map((t: string) => `'${t}'`).join(',')})`
 
-        return `var d=document.documentElement,c=d.classList;${removeClasses};`
-      } else {
-        return `var d=document.documentElement,n='${attribute}',s='setAttribute';`
-      }
+      //   return `var d=document.documentElement,c=d.classList;${removeClasses};`
+      // } else {
+      //   return `var d=document.documentElement,n='${attribute}',s='setAttribute';`
+      // }
+
+      const removeClasses = `c.remove(${attrs.map((t: string) => `'${t}'`).join(',')})`
+
+      return `var d=document.documentElement,c=d.classList;${removeClasses},n='${attribute}',s='setAttribute';`
     })()
 
     const fallbackColorScheme = (() => {
@@ -233,7 +237,10 @@ const ThemeScript = memo(
         }
       } else {
         if (resolvedName) {
-          text += `d[s](n,${val})`
+          text += `;d[s](n,${val})`
+          if (val === "'dark'" || val === "e|| ''") {
+            text += `;c.add(${val})`
+          }
         }
       }
 
